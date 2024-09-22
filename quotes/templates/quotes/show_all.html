@@ -1,0 +1,16 @@
+{% extends 'quotes/base.html' %}
+
+{% block content %}
+    <div class="show-all-container">
+        
+        <div class="quote-grid">
+            {% for quote, image in combined %}
+            <div class="quote-card">
+                <p>{{ quote }}</p>
+                <img src="{{ image }}" alt="Malcolm X Image">
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock %}
+
