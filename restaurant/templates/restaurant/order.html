@@ -1,0 +1,91 @@
+{% extends 'restaurant/base.html' %}
+
+{% block content %}
+<h2>Order Online</h2>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<form method="post" action="{% url 'confirmation' %}">
+    {% csrf_token %}
+
+    <h3>Menu Items</h3>
+    <div class="menu-section">
+        <p>
+            <input type="checkbox" name="items" value="taco" id="taco" class="menu-item">
+            <label for="taco">Taco - ${{ 3.00|floatformat:2 }}</label>
+        </p>
+        <p>
+            <input type="checkbox" name="items" value="burrito" id="burrito" class="menu-item">
+            <label for="burrito">Burrito - ${{ 7.00|floatformat:2 }}</label>
+        </p>
+        <p>
+            <input type="checkbox" name="items" value="quesadilla" id="quesadilla" class="menu-item">
+            <label for="quesadilla">Quesadilla - ${{ 5.00|floatformat:2 }}</label>
+        </p>
+        <p>
+            <input type="checkbox" name="items" value="daily_special" id="daily_special" class="menu-item">
+            <label for="daily_special">
+                Daily Special - Taco with 4 Special Sauces: {{ daily_special_sauces|join:', ' }} - ${{ 8.00|floatformat:2 }}
+            </label>
+            <input type="hidden" name="daily_special_sauces" value="{{ daily_special_sauces|join:', ' }}">
+        </p>
+    </div>
+
+    <h3>Toppings (Extras):</h3>
+    <div class="toppings-section">
+        <p>
+            <input type="checkbox" name="extras" value="Cheese" id="topping_cheese" class="topping" disabled>
+            <label for="topping_cheese">Cheese</label>
+        </p>
+        <p>
+            <input type="checkbox" name="extras" value="Sour Cream" id="topping_sour_cream" class="topping" disabled>
+            <label for="topping_sour_cream">Sour Cream</label>
+        </p>
+        <p>
+            <input type="checkbox" name="extras" value="Guacamole" id="topping_guacamole" class="topping" disabled>
+            <label for="topping_guacamole">Guacamole (+${{ 1.50|floatformat:2 }} per item)</label>
+        </p>
+    </div>
+
+    <h3>Special Instructions</h3>
+    <textarea name="special_instructions" rows="4" cols="50"></textarea>
+
+    <h3>Customer Information</h3>
+    <p>
+        <label for="name">Name:</label><br>
+        <input type="text" name="name" id="name" required>
+    </p>
+    <p>
+        <label for="phone">Phone:</label><br>
+        <input type="text" name="phone" id="phone" required>
+    </p>
+    <p>
+        <label for="email">Email:</label><br>
+        <input type="email" name="email" id="email" required>
+    </p>
+
+    <input type="submit" value="Place Order">
+</form>
+
+<script>
+    $(document).ready(function() {
+        function toggleToppings() {
+            if ($('.menu-item:checked').length > 0) {
+                $('.topping').prop('disabled', false);
+            } else {
+                $('.topping').prop('disabled', true);
+                $('.topping').prop('checked', false);
+            }
+        }
+
+        $('.menu-item').change(function() {
+            toggleToppings();
+        });
+
+        toggleToppings();
+    });
+</script>
+{% endblock %}
+
+
+
+

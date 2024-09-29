@@ -1,0 +1,15 @@
+{% extends 'restaurant/base.html' %}
+{% load static %}
+
+{% block content %}
+<h2>Welcome to El Jefe's Taqueria</h2>
+<p>We are located at 957 Commonwealth Ave, Boston, MA.</p>
+<p>Hours of Operation:</p>
+<table>
+    <tr><td>Monday-Friday:</td><td>11:00 AM - 10:00 PM</td></tr>
+    <tr><td>Saturday:</td><td>12:00 PM - 11:00 PM</td></tr>
+    <tr><td>Sunday:</td><td>12:00 PM - 9:00 PM</td></tr>
+</table>
+<img src="{% static 'images/eljefe.png' %}" alt="El Jefe's Taqueria">
+{% endblock %}
+

@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>El Jefe's Taqueria</title>
+    {% load static %}
+    <link rel="stylesheet" type="text/css" href="{% static 'style.css' %}">
+</head>
+<body>
+    <header>
+        <h1>El Jefe's Taqueria</h1>
+        <nav>
+            <ul>
+                <li><a href="{% url 'main' %}">Home</a></li>
+                <li><a href="{% url 'order' %}">Order</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="content">
+        {% block content %}
+        {% endblock %}
+    </div>
+</body>
+</html>
+
+

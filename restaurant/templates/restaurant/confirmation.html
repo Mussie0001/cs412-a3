@@ -1,0 +1,34 @@
+{% extends 'restaurant/base.html' %}
+
+{% block content %}
+<h2>Order Confirmation</h2>
+<p>Thank you, {{ name }}!</p>
+<p>Your order has been received and will be ready at approximately {{ ready_time }}.</p>
+
+<h3>Order Details:</h3>
+<ul>
+    {% for item in ordered_items %}
+        <li>
+            {{ item.name }} - ${{ item.price|floatformat:2 }}
+            {% if item.name == 'Daily Special - Taco with 4 Special Sauces' %}
+                <br><strong>Includes Sauces:</strong> {{ item.sauces }}
+            {% endif %}
+            {% if item.extras %}
+                <br><strong>Extras:</strong> {{ item.extras|join:', ' }}
+            {% endif %}
+        </li>
+    {% endfor %}
+</ul>
+
+<p><strong>Total Price:</strong> ${{ total_price|floatformat:2 }}</p>
+
+<h3>Special Instructions:</h3>
+<p>{{ special_instructions|default:"None" }}</p>
+
+<h3>Contact Information:</h3>
+<p><strong>Phone:</strong> {{ phone }}</p>
+<p><strong>Email:</strong> {{ email }}</p>
+{% endblock %}
+
+
+
