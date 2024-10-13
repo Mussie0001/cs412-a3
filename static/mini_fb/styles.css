@@ -18,6 +18,10 @@ header {
     padding: 20px 0;
 }
 
+h2 {
+    text-align: center;
+}
+
 table {
     width: 80%;
     margin: 20px auto;
