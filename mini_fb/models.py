@@ -56,8 +56,33 @@ class StatusMessage(models.Model):
     message = models.TextField()
     profile = models.ForeignKey(Profile, on_delete=models.CASCADE, related_name='status_messages')
 
+    def get_images(self):
+        """
+        Returns all images associated with this StatusMessage.
+        """
+        return self.images.all()
+
     def __str__(self):
         """
         Returns a string representation of the StatusMessage instance.
         """
         return f"Message by {self.profile.first_name} on {self.timestamp}: {self.message[:30]}"
+    
+class Image(models.Model):
+    """
+    A model representing an image uploaded for a status message.
+
+    Attributes:
+        image_file (File): The actual image file uploaded.
+        timestamp (datetime): The time the image was uploaded.
+        status_message (StatusMessage): The status message this image is related to.
+    """
+    image_file = models.ImageField(upload_to='images/')
+    timestamp = models.DateTimeField(default=timezone.now)
+    status_message = models.ForeignKey(StatusMessage, on_delete=models.CASCADE, related_name='images')
+
+    def __str__(self):
+        """
+        Returns a string representation of the Image instance.
+        """
+        return f"Image for {self.status_message.message[:30]} uploaded at {self.timestamp}"
