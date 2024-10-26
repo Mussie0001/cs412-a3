@@ -17,6 +17,19 @@
         </tr>
     </table>
 
+    <h3> {{ profile.first_name }}'s Friends</h3>
+    {% if profile.get_friends %}
+    <ul>
+        {% for friend in profile.get_friends %}
+        <li style="list-style-type: none;">
+            <img src="{{ friend.profile_image_url }}" alt="{{ friend.first_name }}" width="50"> <a href="{% url 'show_profile' friend.pk %}">{{ friend.first_name }} {{ friend.last_name }}</a>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>This profile has no friends yet.</p>
+    {% endif %}
+
     <h3>Status Messages</h3>
     <ul>
         {% for status in profile.get_status_messages %}
@@ -38,6 +51,8 @@
     </ul>
     <a href="{% url 'create_status' profile.pk %}">Create a New Status</a> 
     <a href="{% url 'update_profile' profile.pk %}">Update Profile</a>
+    <a href="{% url 'friend_suggestions' profile.pk %}">View Friend Suggestions</a>
+    <a href="{% url 'news_feed' profile.pk %}">View News Feed</a>
 {% endblock %}
 
 
