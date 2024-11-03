@@ -1,39 +1,22 @@
-"""
-Author: Mussie Abraham
-Username/Email: mussieab@bu.edu
-Description: This file contains the view for displaying all profiles in the mini_fb application.
-"""
-
 from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, CreateView, UpdateView, DeleteView, View
 from .models import Profile, StatusMessage, Image
 from .forms import CreateProfileForm, CreateStatusMessageForm, UpdateProfileForm
-from django.urls import reverse
+from django.urls import reverse_lazy, reverse
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.forms import UserCreationForm
 
 
-
-# Create your views here.
 class ShowAllProfilesView(ListView):
-    """
-    A view that displays all profiles in the mini_fb application.
-
-    Attributes:
-        model (Profile): The model that this view will display.
-        template_name (str): The template used to render the view.
-        context_object_name (str): The name of the context object used in the template.
+    """ View to show all profiles
     """
     model = Profile
     template_name = 'mini_fb/show_all_profiles.html'
     context_object_name = 'profiles'
 
-class ShowProfilePageView(DetailView):
-    """
-    A view that displays a single profile in the mini_fb application.
 
-    Attributes:
-        model (Profile): The model that this view will display.
-        template_name (str): The template used to render the view.
-        context_object_name (str): The name of the context object used in the template.
+class ShowProfilePageView(DetailView):
+    """ View to show a single profile page
     """
     model = Profile
     template_name = 'mini_fb/show_profile.html'
@@ -42,120 +25,112 @@ class ShowProfilePageView(DetailView):
 
 class CreateProfileView(CreateView):
     """
-    A view that handles creating a new Profile.
-
-    This view uses the CreateProfileForm to allow users to create a new profile.
+    A view that allows users to register a User account and create a Profile at the same time.
     """
     model = Profile
     form_class = CreateProfileForm
     template_name = 'mini_fb/create_profile_form.html'
+    success_url = reverse_lazy('show_all_profiles')
 
-    def get_success_url(self):
+    def get_context_data(self, **kwargs):
         """
-        Returns the URL to redirect to after successfully creating a profile.
+        Adds the UserCreationForm to the context data so it can be rendered on the page.
         """
-        return reverse('show_profile', kwargs={'pk': self.object.pk})
+        context = super().get_context_data(**kwargs)
+        context['user_creation_form'] = UserCreationForm()
+        return context
+
+    def form_valid(self, form):
+        """
+        Handles form submission by creating a User and a Profile.
+        """
+        user_creation_form = UserCreationForm(self.request.POST)
+        
+        if user_creation_form.is_valid():
+            user = user_creation_form.save()
+            form.instance.user = user
+            return super().form_valid(form)
+        else:
+            return self.form_invalid(form)
 
 
 class CreateStatusMessageView(CreateView):
-    """
-    A view to handle the creation of a new status message for a profile.
+    """ View to create a status message
     """
     model = StatusMessage
     form_class = CreateStatusMessageForm
     template_name = 'mini_fb/create_status_form.html'
 
+    def get_object(self):
+        return get_object_or_404(Profile, user=self.request.user)
+
     def get_context_data(self, **kwargs):
-        """
-        Adds the Profile object to the context for the form.
-        """
         context = super().get_context_data(**kwargs)
-        profile = Profile.objects.get(pk=self.kwargs['pk'])
-        context['profile'] = profile
+        context['profile'] = self.get_object()  
         return context
 
     def form_valid(self, form):
-        """
-        Handles the form submission, saves the StatusMessage, and handles file uploads.
-        """
-        # Save the StatusMessage to the database
         sm = form.save(commit=False)
-        profile = Profile.objects.get(pk=self.kwargs['pk'])
-        sm.profile = profile
+        sm.profile = self.get_object()  
         sm.save()
 
-        # Handle file uploads
         files = self.request.FILES.getlist('files') 
         for file in files:
             img = Image()
             img.status_message = sm 
             img.image_file = file  
-            img.save()  
+            img.save()
 
         return super().form_valid(form)
 
     def get_success_url(self):
-        """
-        Returns the URL to redirect to after the form is successfully submitted.
-        """
-        return reverse('show_profile', kwargs={'pk': self.kwargs['pk']})
-    
-class UpdateProfileView(UpdateView):
-    """
-    A view to handle updating an existing profile.
+        return reverse('show_profile', kwargs={'pk': self.get_object().pk})
+
+class UpdateProfileView(LoginRequiredMixin, UpdateView):
+    """ View to update a profile
     """
     model = Profile
     form_class = UpdateProfileForm
     template_name = 'mini_fb/update_profile_form.html'
 
+    def get_object(self):
+        return get_object_or_404(Profile, user=self.request.user)
+
     def get_success_url(self):
-        """
-        Redirect back to the profile page after a successful update.
-        """
         return reverse('show_profile', kwargs={'pk': self.object.pk})
-    
-class DeleteStatusMessageView(DeleteView):
-    """
-    A view to handle deleting an existing status message.
+
+
+class DeleteStatusMessageView(LoginRequiredMixin, DeleteView):
+    """ View to delete a status message
     """
     model = StatusMessage
     template_name = 'mini_fb/delete_status_form.html'
     context_object_name = 'status_message'
 
     def get_success_url(self):
-        """
-        Redirect back to the profile page after the status message is deleted.
-        """
         profile_id = self.object.profile.pk
         return reverse('show_profile', kwargs={'pk': profile_id})
-    
-class UpdateStatusMessageView(UpdateView):
-    """
-    A view to handle updating an existing status message.
+
+
+class UpdateStatusMessageView(LoginRequiredMixin, UpdateView):
+    """ View to update a status message
     """
     model = StatusMessage
-    form_class = CreateStatusMessageForm  
+    form_class = CreateStatusMessageForm
     template_name = 'mini_fb/update_status_form.html'
-    context_object_name = 'status_message' 
+    context_object_name = 'status_message'
 
     def get_success_url(self):
-        """
-        Redirect back to the profile page after the status message is updated.
-        """
-        profile_id = self.object.profile.pk 
+        profile_id = self.object.profile.pk
         return reverse('show_profile', kwargs={'pk': profile_id})
-    
-class CreateFriendView(View):
-    """
-    A view to handle adding a friend by URL.
-    """
 
+
+class CreateFriendView(LoginRequiredMixin, View):
+    """ View to create a friend connection
+    """
     def dispatch(self, request, *args, **kwargs):
-        """
-        Handles the request to add a friend and redirects to the profile page.
-        """
-        profile = get_object_or_404(Profile, pk=kwargs['pk'])  
-        other_profile = get_object_or_404(Profile, pk=kwargs['other_pk'])  
+        profile = get_object_or_404(Profile, user=request.user)
+        other_profile = get_object_or_404(Profile, pk=kwargs['other_pk'])
 
         try:
             profile.add_friend(other_profile)
@@ -163,24 +138,38 @@ class CreateFriendView(View):
             print(f"Error: {e}")
 
         return redirect('show_profile', pk=profile.pk)
-    
-class ShowFriendSuggestionsView(DetailView):
+
+
+
+class ShowFriendSuggestionsView(LoginRequiredMixin, DetailView):
+    """
+    View to display friend suggestions for the logged-in user.
+    """
     model = Profile
     template_name = 'mini_fb/friend_suggestions.html'
     context_object_name = 'profile'
+
+    def get_object(self):
+        return get_object_or_404(Profile, user=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['friend_suggestions'] = self.object.get_friend_suggestions()
         return context
-    
-class ShowNewsFeedView(DetailView):
+
+class ShowNewsFeedView(LoginRequiredMixin, DetailView):
+
+    """
+    ShowNewsFeedView is a Django view that displays the news feed for a logged-in user.
+    """
     model = Profile
     template_name = 'mini_fb/news_feed.html'
     context_object_name = 'profile'
+
+    def get_object(self):
+        return get_object_or_404(Profile, user=self.request.user)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['news_feed'] = self.object.get_news_feed()
         return context
-

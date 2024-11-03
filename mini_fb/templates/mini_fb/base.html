@@ -18,12 +18,22 @@
 <body>
     <header>
         <h1>Mini Facebook</h1>
+        {% if user.is_authenticated %}
+        <span> Welcome, {{user.username}}!</span>
+        {% endif %}
     </header>
 
     <nav>
-        <!-- navigation links for future parts -->
         <a href="{% url 'show_all_profiles' %}">All Profiles</a>
-        <a href="{% url 'create_profile' %}">Create New Profile</a> 
+        <a href="{% url 'create_profile' %}">Create New Profile</a>
+        {% if user.is_authenticated %}
+        <form action="{% url 'logout' %}" method="post" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" style="background:none; border:none; color:blue; cursor:pointer;">Logout</button>
+        </form>
+        {% else %}
+            <a href="{% url 'login' %}">Login</a>
+        {% endif %}
     </nav>
 
     <main>

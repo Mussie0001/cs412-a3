@@ -7,6 +7,8 @@ Description: This file contains the model definitions for the mini Facebook appl
 from django.db import models
 from django.utils import timezone
 from django.urls import reverse
+from django.contrib.auth.models import User
+
 
 class Profile(models.Model):
     """
@@ -24,6 +26,7 @@ class Profile(models.Model):
     city = models.CharField(max_length=100)
     email = models.EmailField(unique=True)
     profile_image_url = models.URLField(max_length=200)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="profile", null=True, blank=True)
 
     def __str__(self):
         """

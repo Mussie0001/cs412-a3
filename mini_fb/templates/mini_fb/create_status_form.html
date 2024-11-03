@@ -8,5 +8,6 @@
         <label for="files">Upload Images:</label>
         <input type="file" name="files" multiple /> 
         <button type="submit">Post Status</button>
+        <a href="{% url 'show_profile' profile.pk %}" class="button">Cancel</a>
     </form>
 {% endblock %}

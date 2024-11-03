@@ -8,7 +8,7 @@
         <li style="list-style-type: none;">
             <img src="{{ suggestion.profile_image_url }}" alt="{{ suggestion.first_name }}" width="50">
             {{ suggestion.first_name }} {{ suggestion.last_name }} 
-            <a href="{% url 'add_friend' profile.pk suggestion.pk %}">Add Friend</a>
+            <a href="{% url 'add_friend' suggestion.pk %}">Add Friend</a>
         </li>
         {% empty %}
         <li style="list-style-type: none;">No friend suggestions available at the moment.</li>
