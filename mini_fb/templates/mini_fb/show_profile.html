@@ -38,8 +38,8 @@
             <strong>{{ status.timestamp }}</strong>: {{ status.message }}
             
             {% if user.is_authenticated and user == profile.user %}
-            <a href="{% url 'update_status' status.pk %}"  style="display: inline-block; padding: 10px 20px; margin: 5px; background-color: green; color: white; text-decoration: none; border-radius: 5px;">Update</a>
-            <a href="{% url 'delete_status' status.pk %}"  style="display: inline-block; padding: 10px 20px; margin: 5px; background-color: red; color: white; text-decoration: none; border-radius: 5px;">Delete</a>
+            <a href="{% url 'update_status' status.pk %}"  style="display: inline-block; padding: 10px 20px; margin: 5px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Update</a>
+            <a href="{% url 'delete_status' status.pk %}"  style="display: inline-block; padding: 10px 20px; margin: 5px; background-color: gray; color: white; text-decoration: none; border-radius: 5px;">Delete</a>
             {% endif %}
 
             {% if status.get_images %}
