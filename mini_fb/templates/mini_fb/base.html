@@ -24,18 +24,18 @@
     </header>
 
     <nav>
-        <a href="{% url 'show_all_profiles' %}">All Profiles</a>
-        <a href="{% url 'create_profile' %}">Create New Profile</a>
+        <a href="{% url 'show_all_profiles' %}" style="display: inline-block; padding: 10px 20px; margin: 5px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">All Profiles</a>
+        <a href="{% url 'create_profile' %}" style="display: inline-block; padding: 10px 20px; margin: 5px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Create New Profile</a>
         {% if user.is_authenticated %}
         {% if user_profile %}
-        <a href="{% url 'show_profile' user_profile.pk %}">My Profile</a>
+        <a href="{% url 'show_profile' user_profile.pk %}" style="display: inline-block; padding: 10px 20px; margin: 5px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">My Profile</a>
     {% endif %}
         <form action="{% url 'logout' %}" method="post" style="display:inline;">
             {% csrf_token %}
-            <button type="submit" style="background:none; border:none; color:blue; text-decoration:underline; cursor:pointer; padding:0; font:inherit;">Logout</button>
+            <button type="submit" style="display: inline-block; padding: 10px 20px; margin: 5px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Logout</button>
         </form>
         {% else %}
-            <a href="{% url 'login' %}">Login</a>
+            <a href="{% url 'login' %}" style="display: inline-block; padding: 10px 20px; margin: 5px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Login</a>
         {% endif %}
     </nav>
 

@@ -15,5 +15,7 @@
         {% endfor %}
     </ul>
 
-    <a href="{% url 'show_profile' profile.pk %}">Back to Profile</a>
+    <div style="text-align: center; margin-top: 20px;">
+        <a href="{% url 'show_profile' profile.pk %}" style="display: inline-block; padding: 10px 20px; margin: 5px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Back to Profile</a>
+    </div>
 {% endblock %}

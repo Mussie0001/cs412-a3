@@ -4,7 +4,7 @@
 
 {% block content %}
     <h2>Login</h2>
-    <form method="post" action="{% url 'login' %}">
+    <form method="post" action="{% url 'login' %}" >
         {% csrf_token %}
         {{ form.as_p }}
         <input type="hidden" name="next" value="{% url 'show_all_profiles' %}">

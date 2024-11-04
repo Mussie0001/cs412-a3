@@ -38,8 +38,8 @@
             <strong>{{ status.timestamp }}</strong>: {{ status.message }}
             
             {% if user.is_authenticated and user == profile.user %}
-            <a href="{% url 'delete_status' status.pk %}">Delete</a>
-            <a href="{% url 'update_status' status.pk %}">Update</a>
+            <a href="{% url 'update_status' status.pk %}"  style="display: inline-block; padding: 10px 20px; margin: 5px; background-color: green; color: white; text-decoration: none; border-radius: 5px;">Update</a>
+            <a href="{% url 'delete_status' status.pk %}"  style="display: inline-block; padding: 10px 20px; margin: 5px; background-color: red; color: white; text-decoration: none; border-radius: 5px;">Delete</a>
             {% endif %}
 
             {% if status.get_images %}
@@ -55,12 +55,14 @@
         {% endfor %}
     </ul>
 
-    {% if user.is_authenticated and user == profile.user %}
-        <a href="{% url 'create_status' %}">Create a New Status</a> 
-        <a href="{% url 'update_profile' %}">Update Profile</a>
-        <a href="{% url 'friend_suggestions' %}">View Friend Suggestions</a>
-        <a href="{% url 'news_feed'%}">View News Feed</a>
-    {% endif %}
+    <div style="text-align: center;">
+        {% if user.is_authenticated and user == profile.user %}
+            <a href="{% url 'create_status' %}" style="display: inline-block; padding: 10px 20px; margin: 5px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Create a New Status</a>
+            <a href="{% url 'update_profile' %}" style="display: inline-block; padding: 10px 20px; margin: 5px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">Update Profile</a>
+            <a href="{% url 'friend_suggestions' %}" style="display: inline-block; padding: 10px 20px; margin: 5px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">View Friend Suggestions</a>
+            <a href="{% url 'news_feed'%}" style="display: inline-block; padding: 10px 20px; margin: 5px; background-color: #007bff; color: white; text-decoration: none; border-radius: 5px;">View News Feed</a>
+        {% endif %}
+    </div>
 {% endblock %}
 
 
