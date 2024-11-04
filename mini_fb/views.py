@@ -17,8 +17,7 @@ class ShowAllProfilesView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         if self.request.user.is_authenticated:
-            user_profile = Profile.objects.filter(user=self.request.user).first()
-            context['user_profile'] = user_profile
+            context['user_profile'] = get_object_or_404(Profile, user=self.request.user)
         return context
 
 class ShowProfilePageView(DetailView):
