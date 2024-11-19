@@ -1,0 +1,78 @@
+.recipe-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+}
+
+.recipe-card {
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    max-width: 250px;
+}
+
+.recipe-detail img {
+    display: block;
+    margin: 20px auto;
+}
+.meal-plans {
+    margin: 20px 0;
+}
+
+.meal-day {
+    display: flex;
+    flex-wrap: wrap; /* Allows wrapping if there are too many items */
+    gap: 20px; /* Space between meal items */
+}
+
+.meal-item {
+    flex: 1 1 calc(25% - 20px); /* Flex items to take up 25% width with spacing */
+    max-width: calc(25% - 20px);
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 10px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.meal-item img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.meal-item h4 {
+    font-size: 1.2em;
+    color: #333;
+    margin: 10px 0;
+}
+
+.meal-item h5 {
+    font-size: 1em;
+    color: #555;
+    margin: 5px 0;
+}
+
+.meal-item p {
+    font-size: 0.9em;
+    color: #666;
+}
+
+.meal-day h3 {
+    font-size: 1.5em;
+    color: #222;
+    margin-bottom: 15px;
+}
+
+.meal-day .meal-item a {
+    text-decoration: none;
+    color: #007BFF;
+    font-weight: bold;
+    transition: color 0.3s ease;
+}
+
+.meal-day .meal-item a:hover {
+    color: #0056b3;
+}

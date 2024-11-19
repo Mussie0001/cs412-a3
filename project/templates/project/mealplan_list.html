@@ -1,0 +1,31 @@
+{% extends "project/base.html" %}
+
+{% block content %}
+<h2>Meal Plans</h2>
+
+<div class="meal-plans">
+    {% for date, plans in meal_plans_by_date.items %}
+    <h3>Meal Plan for {{ date }}</h3>
+        <div class="meal-day">
+            {% for plan in plans %}
+                <div class="meal-item">
+                    <h4>{{ plan.meal_type }}</h4>
+                    <a href="{% url 'recipe_detail' plan.recipe.pk %}">
+                        <h5>{{ plan.recipe.title }}</h5>
+                    </a>
+                    {% if plan.recipe.image %}
+                        <img src="{{ plan.recipe.image.url }}" alt="{{ plan.recipe.title }}">
+                    {% endif %}
+                    <p>{{ plan.recipe.description }}</p>
+                    <p>Planned by: {{ plan.user.username }}</p>
+                </div>
+            {% endfor %}
+        </div>
+    {% empty %}
+        <p>No meal plans available yet!</p>
+    {% endfor %}
+</div>
+
+<!-- {# <a href="{% url 'mealplan_add' %}" class="button">Add a Meal Plan</a> #} -->
+{% endblock %}
+
