@@ -21,12 +21,12 @@
 
 .meal-day {
     display: flex;
-    flex-wrap: wrap; /* Allows wrapping if there are too many items */
-    gap: 20px; /* Space between meal items */
+    flex-wrap: wrap; 
+    gap: 20px; 
 }
 
 .meal-item {
-    flex: 1 1 calc(25% - 20px); /* Flex items to take up 25% width with spacing */
+    flex: 1 1 calc(25% - 20px); 
     max-width: calc(25% - 20px);
     background-color: #f9f9f9;
     border: 1px solid #ddd;
