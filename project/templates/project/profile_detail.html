@@ -1,0 +1,14 @@
+{% extends "project/base.html" %}
+
+{% block title %}My Profile{% endblock %}
+
+{% block content %}
+<h2>{{ profile.first_name }} {{ profile.last_name }}</h2>
+{% if profile.profile_picture_url %}
+<img src="{{ profile.profile_picture_url }}" alt="Profile Picture" style="max-width:200px;">
+{% else %}
+<p>No profile picture available.</p>
+{% endif %}
+<p><strong>Bio:</strong> {{ profile.bio }}</p>
+<a href="{% url 'recipe_list' %}">View Recipes</a>
+{% endblock %}

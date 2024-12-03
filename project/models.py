@@ -1,5 +1,28 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.utils import timezone
+from django.urls import reverse
+
+
+class Profile(models.Model):
+    """
+    Represents a user profile tied to a Django User.
+    """
+    user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="user_profile")
+    first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    bio = models.TextField(blank=True, help_text="")
+    profile_picture_url = models.URLField(max_length=500, blank=True, null=True, help_text="")
+
+    def __str__(self):
+        return f"{self.first_name} {self.last_name}"
+
+    def get_absolute_url(self):
+        """
+        Returns the URL to view this Profile object.
+        """
+        return reverse("profile_detail", kwargs={"pk": self.pk})
+
 
 class Recipe(models.Model):
     title = models.CharField(max_length=255)
@@ -57,4 +80,3 @@ class MealPlan(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s {self.meal_type} on {self.date}"
-

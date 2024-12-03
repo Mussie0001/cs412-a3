@@ -1,78 +1,133 @@
-.recipe-list {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+:root {
+    --primary-color: #88B04B; /* Sage green */
+    --accent-color: #FFA726; /* Soft orange */
+    --background-color: #F9F9F9; /* Off-white */
+    --text-color: #333333; /* Charcoal gray */
 }
 
-.recipe-card {
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
-    max-width: 250px;
+/* General styles */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: var(--background-color);
+    color: var(--text-color);
 }
 
-.recipe-detail img {
-    display: block;
-    margin: 20px auto;
-}
-.meal-plans {
-    margin: 20px 0;
-}
-
-.meal-day {
-    display: flex;
-    flex-wrap: wrap; 
-    gap: 20px; 
-}
-
-.meal-item {
-    flex: 1 1 calc(25% - 20px); 
-    max-width: calc(25% - 20px);
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    padding: 10px;
+.header {
     text-align: center;
+    background-color: var(--primary-color);
+    padding: 20px;
+    color: white;
+}
+
+.header-title {
+    margin: 0;
+    font-size: 2.5rem;
+}
+
+.nav {
+    text-align: center;
+    box-shadow: 0 8px 20px rgba(51, 51, 51, 0.3); /* Charcoal gray shadow */
+    padding: 30px 0; /* Increase vertical size */
+}
+
+.nav a {
+    margin: 0 15px;
+    text-decoration: none;
+    color: var(--text-color);
+    font-weight: bold;
+    font-size: 18px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.nav a:hover {
+    color: white;
+    background-color: var(--accent-color);
+}
+
+.content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 70vh;
+    padding: 20px;
+}
+
+.footer {
+    text-align: center;
+    padding: 10px 0;
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.welcome-card {
+    text-align: center;
+    background-color: white;
+    padding: 30px;
+    border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-.meal-item img {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin-bottom: 10px;
+.welcome-card h2 {
+    color: var(--primary-color);
 }
 
-.meal-item h4 {
-    font-size: 1.2em;
-    color: #333;
-    margin: 10px 0;
+.button-group {
+    margin-top: 20px;
 }
 
-.meal-item h5 {
-    font-size: 1em;
-    color: #555;
-    margin: 5px 0;
-}
-
-.meal-item p {
-    font-size: 0.9em;
-    color: #666;
-}
-
-.meal-day h3 {
-    font-size: 1.5em;
-    color: #222;
-    margin-bottom: 15px;
-}
-
-.meal-day .meal-item a {
+.btn {
     text-decoration: none;
-    color: #007BFF;
-    font-weight: bold;
-    transition: color 0.3s ease;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    margin: 5px;
+    display: inline-block;
+    font-size: 1rem;
 }
 
-.meal-day .meal-item a:hover {
-    color: #0056b3;
+.btn:hover {
+    background-color: var(--accent-color);
+}
+.login-form-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 40%;
+}
+
+.logout-form-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    width: 40%;
+}
+.form-container {
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    width: 100%;
+}
+
+.form-container h2 {
+    color: var(--primary-color);
+}
+
+.link {
+    color: var(--accent-color);
+    text-decoration: none;
+}
+
+.link:hover {
+    text-decoration: underline;
 }

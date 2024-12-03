@@ -1,0 +1,22 @@
+{% extends "project/base.html" %}
+
+{% block title %}Create Profile{% endblock %}
+
+{% block content %}
+<h2>Create Your Profile</h2>
+<form method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Create Profile</button>
+</form>
+<p>Want to log out? 
+    <a href="{% url 'project_logout' %}" 
+       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+       Logout
+    </a>
+</p>
+<form id="logout-form" action="{% url 'project_logout' %}" method="post" style="display: none;">
+    {% csrf_token %}
+</form>
+{% endblock %}
+

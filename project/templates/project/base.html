@@ -5,23 +5,34 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'project/styles.css' %}">
-    <title>{% block title %}Recipe Collection{% endblock %}</title>
+    <title>{% block title %}Plantry{% endblock %}</title>
 </head>
-<body>
-    <header>
-        <h1>Recipe Collection & Meal Planner</h1>
-        <nav>
-            <a href="{% url 'recipe_list' %}">All Recipes</a>
-            <a href="{% url 'mealplan_list' %}">Meal Plans</a>
-            <a href="{% url 'category_list' %}">Categories</a>
-        </nav>
+<body class="background">
+    <header class="header">
+        <h1 class="header-title">Plantry</h1>
     </header>
-    <main>
+    <nav class="nav" {% if hide_navbar %}style="display: none;"{% endif %}>
+        {% if user.is_authenticated %}
+        <a href="{% url 'recipe_list' %}">Recipes</a>
+        <a href="{% url 'mealplan_list' %}">Meal Plans</a>
+        <a href="{% url 'category_list' %}">Categories</a>
+        {% if user.user_profile %}
+            <a href="{% url 'profile_detail' user.user_profile.pk %}">My Profile</a>
+        {% else %}
+            <a href="{% url 'profile_create_only' %}">Create Profile</a>
+        {% endif %}
+        <a href="{% url 'project_logout' %}" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">Logout</a>
+        <form id="logout-form" action="{% url 'project_logout' %}" method="post" style="display: none;">
+            {% csrf_token %}
+        </form>
+        {% endif %}
+    </nav>    
+    <main class="content">
         {% block content %}
         {% endblock %}
     </main>
-    <footer>
-        <p>&copy; 2024 Recipe Planner</p>
+    <footer class="footer">
+        <p>&copy; 2024 Plantry</p>
     </footer>
 </body>
 </html>
