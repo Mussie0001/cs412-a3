@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
-from django.utils import timezone
+from django.utils.timezone import localtime
+from pytz import timezone as pytz_timezone
 from django.urls import reverse
 
 
@@ -80,3 +81,15 @@ class MealPlan(models.Model):
 
     def __str__(self):
         return f"{self.user.username}'s {self.meal_type} on {self.date}"
+    
+class Comment(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE, related_name="comments")
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    content = models.TextField()
+    timestamp = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        # convert timestamp to US/Eastern timezone
+        est = pytz_timezone('US/Eastern')  # pytz for timezone handling
+        local_time = localtime(self.timestamp).astimezone(est)
+        return f"Comment by {self.user.username} on {local_time.strftime('%Y-%m-%d %H:%M:%S %Z')}"

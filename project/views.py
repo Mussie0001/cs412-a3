@@ -1,12 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.views.generic import TemplateView, ListView, DetailView, CreateView, View
+from django.views.generic import TemplateView, ListView, DetailView, CreateView, View, UpdateView, DeleteView
 from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
-from .models import Profile, Recipe, MealPlan, Category
-from .forms import ProfileForm
-from django.contrib.auth.mixins import LoginRequiredMixin
+from .models import Profile, Recipe, MealPlan, Category, Comment
+from .forms import ProfileForm, CommentForm
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 
 
 class HomePageView(TemplateView):
@@ -33,6 +33,30 @@ class RecipeDetailView(DetailView):
     model = Recipe
     template_name = 'project/recipe_detail.html'
     context_object_name = 'recipe'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['comments'] = self.object.comments.all().order_by('-timestamp')
+        if self.request.user.is_authenticated:
+            context['comment_form'] = CommentForm()
+        return context
+
+    def post(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('project_login')
+
+        recipe = self.get_object()
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.recipe = recipe
+            comment.save()
+            return redirect('recipe_detail', pk=recipe.pk)
+
+        context = self.get_context_data()
+        context['comment_form'] = form
+        return self.render_to_response(context)
 
 
 
@@ -127,3 +151,31 @@ class ProfileDetailView(DetailView):
     model = Profile
     template_name = "project/profile_detail.html"
     context_object_name = "profile"
+
+class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Comment
+    fields = ['content']
+    template_name = 'project/comment_edit.html'
+
+    def test_func(self):
+        """Ensure the user is the owner of the comment."""
+        comment = self.get_object()
+        return self.request.user == comment.user
+
+    def get_success_url(self):
+        """Redirect back to the recipe detail page after editing."""
+        return reverse_lazy('recipe_detail', kwargs={'pk': self.object.recipe.pk})
+
+
+class CommentDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Comment
+    template_name = 'project/comment_delete.html'
+
+    def test_func(self):
+        """Ensure the user is the owner of the comment."""
+        comment = self.get_object()
+        return self.request.user == comment.user
+
+    def get_success_url(self):
+        """Redirect back to the recipe detail page after deletion."""
+        return reverse_lazy('recipe_detail', kwargs={'pk': self.object.recipe.pk})

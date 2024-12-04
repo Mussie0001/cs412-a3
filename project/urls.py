@@ -11,7 +11,9 @@ from .views import (
     ProfileCreateView,
     ProfileDetailView,
     ProfileOnlyCreateView,
-    CustomLogoutView
+    CustomLogoutView,
+    CommentUpdateView,
+    CommentDeleteView,
 )
 
 urlpatterns = [
@@ -26,6 +28,8 @@ urlpatterns = [
     path('login/', CustomLoginView.as_view(), name='project_login'),
     path('logout/', CustomLogoutView.as_view(), name='project_logout'),
     path('profile/create-only/', ProfileOnlyCreateView.as_view(), name='profile_create_only'),
+    path('comment/<int:pk>/edit/', CommentUpdateView.as_view(), name='comment_edit'),
+    path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment_delete'),
 ]
 
 

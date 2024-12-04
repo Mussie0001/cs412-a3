@@ -28,8 +28,8 @@ body {
 
 .nav {
     text-align: center;
-    box-shadow: 0 8px 20px rgba(51, 51, 51, 0.3); /* Charcoal gray shadow */
-    padding: 30px 0; /* Increase vertical size */
+    box-shadow: 0 8px 20px rgba(51, 51, 51, 0.3);
+    padding: 30px 0; 
 }
 
 .nav a {
@@ -142,17 +142,17 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     display: flex;
     flex-direction: column;
-    align-items: center; /* Center align image and content */
-    text-align: center; /* Center align text */
-    max-width: 300px; /* Make cards reasonably small */
-    margin: 15px auto; /* Center the cards horizontally */
+    align-items: center; 
+    text-align: center;
+    max-width: 300px; 
+    margin: 15px auto;
 }
 
 .meal-plan-card img {
-    max-width: 150px; /* Constrain image width */
-    max-height: 150px; /* Constrain image height */
+    max-width: 150px;
+    max-height: 150px;
     border-radius: 8px;
-    object-fit: cover; /* Ensures the image scales proportionally */
+    object-fit: cover; 
     margin-bottom: 10px;
 }
 
@@ -171,47 +171,47 @@ body {
 
 /* Recipes container */
 .recipes-container {
-    padding: 20px; /* Add padding around the entire page */
-    background-color: #F9F9F9; /* Match the off-white background */
-    color: #333333; /* Charcoal gray text */
-    text-align: center; /* Center align the heading */
+    padding: 20px; 
+    background-color: #F9F9F9; 
+    color: #333333; 
+    text-align: center; 
 }
 
 .recipes-container h1 {
-    color: #88B04B; /* Sage green heading */
+    color: #88B04B; 
     margin-bottom: 20px;
 }
 
 /* Recipe grid layout */
 .recipe-grid {
     display: flex;
-    flex-wrap: wrap; /* Allow items to wrap to the next row */
-    justify-content: space-between; /* Add space between cards */
-    gap: 30px 15px; /* Reduce horizontal gap (10px between rows, 15px side to side) */
-    padding: 10px; /* Padding around the grid */
+    flex-wrap: wrap; 
+    justify-content: space-between; 
+    gap: 30px 15px; 
+    padding: 10px; 
 }
 
 /* Recipe card styling */
 .recipe-card {
-    background-color: #FFF; /* White card background */
-    border: 1px solid #88B04B; /* Sage green border */
+    background-color: #FFF; 
+    border: 1px solid #88B04B; 
     border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Subtle shadow for depth */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
     padding: 15px;
-    flex: 1 1 calc(33.333% - 20px); /* Responsive grid: 3 cards per row */
-    max-width: 300px; /* Limit max width of each card */
+    flex: 1 1 calc(33.333% - 20px); 
+    max-width: 300px; 
     display: flex;
-    flex-direction: column; /* Stack elements vertically */
-    align-items: center; /* Center align content */
-    text-align: center; /* Center align text */
+    flex-direction: column; 
+    align-items: center; 
+    text-align: center; 
 }
 
 /* Recipe card image */
 .recipe-card img {
-    max-width: 100%; /* Ensure image fits within the card */
-    max-height: 150px; /* Constrain image height */
+    max-width: 100%; 
+    max-height: 150px; 
     border-radius: 8px;
-    object-fit: cover; /* Scale image proportionally */
+    object-fit: cover;
     margin-bottom: 10px;
 }
 
@@ -225,7 +225,7 @@ body {
 /* View Recipe link styling */
 .view-recipe-link {
     color: #FFF;
-    background-color: #FFA726; /* Soft orange button */
+    background-color: #FFA726; 
     padding: 8px 12px;
     border-radius: 5px;
     text-decoration: none;
@@ -235,17 +235,17 @@ body {
 }
 
 .view-recipe-link:hover {
-    background-color: #FF8C00; /* Slightly darker orange on hover */
+    background-color: #FF8C00; 
 }
 
 /* Recipe detail card styling */
 .recipe-detail-card {
-    background-color: #ffffff; /* White card background */
+    background-color: #ffffff; 
     border-radius: 8px;
     padding: 20px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); 
     max-width: 800px;
-    margin: 20px auto; /* Center card */
+    margin: 20px auto; 
     font-family: Arial, sans-serif;
     color: #333333;
 }
@@ -262,14 +262,14 @@ body {
 .recipe-content {
     display: flex;
     gap: 20px;
-    flex-wrap: wrap; /* Adjust for smaller screens */
+    flex-wrap: wrap; 
 }
 
 /* Recipe image */
 .recipe-image img {
     max-width: 100%;
     border-radius: 8px;
-    border: 2px solid #FFA726; /* Soft orange */
+    border: 2px solid #FFA726; 
 }
 
 /* Recipe information */
@@ -379,7 +379,7 @@ body {
 }
 
 .profile-content a.button:hover {
-    background-color: #6c8a3b; /* Darker green */
+    background-color: #6c8a3b; 
 }
 
 /* Categories container */
@@ -400,9 +400,9 @@ body {
 /* Category grid layout */
 .category-grid {
     display: flex;
-    flex-wrap: wrap; /* Allow items to wrap */
-    justify-content: space-between; /* Space between cards */
-    gap: 20px; /* Space between rows and columns */
+    flex-wrap: wrap; 
+    justify-content: space-between;
+    gap: 20px;
     padding: 10px;
 }
 
@@ -413,11 +413,11 @@ body {
     border-radius: 8px;
     padding: 20px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    flex: 1 1 calc(33.333% - 20px); /* Responsive: 3 cards per row */
-    max-width: 500px; /* Limit max width */
+    flex: 1 1 calc(33.333% - 20px); /* 3 cards per row */
+    max-width: 500px; 
     text-align: center;
     display: flex;
-    flex-direction: column; /* Stack elements */
+    flex-direction: column; 
     align-items: center;
 }
 
@@ -439,7 +439,7 @@ body {
 }
 
 .view-category-link:hover {
-    background-color: #FF8C00; /* Slightly darker orange */
+    background-color: #FF8C00; 
 }
 
 /* No categories message */
@@ -488,3 +488,80 @@ body {
     color: var(--text-color); /* Charcoal gray */
     font-size: 1rem;
 }
+
+/* Comments section styling */
+.comments-section {
+    margin-top: 40px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    margin: 20px auto;
+}
+
+.comments-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+/* Comment form */
+.comment-form {
+    margin-bottom: 20px;
+}
+
+.comment-form textarea {
+    width: 100%;
+    border: 1px solid var(--primary-color);
+    border-radius: 5px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+/* Comments list */
+.comments-list {
+    margin-top: 20px;
+}
+
+.comment-card {
+    margin-bottom: 15px;
+    padding: 10px;
+    background-color: #f9f9f9;
+    border-left: 3px solid var(--primary-color);
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.comment-card p {
+    margin: 5px 0;
+    font-size: 14px;
+}
+
+/* Login prompt */
+.login-prompt {
+    margin-top: 20px;
+}
+
+.login-prompt a {
+    color: var(--accent-color);
+    text-decoration: underline;
+}
+
+.login-prompt a:hover {
+    text-decoration: none;
+}
+
+.btn.small {
+    font-size: 0.8rem;
+    padding: 5px 10px;
+}
+
+.btn.danger {
+    background-color: #FF6B6B; 
+    color: white;
+}
+
+.btn.danger:hover {
+    background-color: #FF4C4C; 
+}
+

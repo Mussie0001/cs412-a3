@@ -1,0 +1,13 @@
+{% extends 'project/base.html' %}
+{% block title %}Edit Comment{% endblock %}
+{% block content %}
+<div class="form-container">
+    <h2>Edit Comment</h2>
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn">Save Changes</button>
+    </form>
+    <a href="{% url 'recipe_detail' object.recipe.pk %}" class="btn">Cancel</a>
+</div>
+{% endblock %}
