@@ -1,15 +1,30 @@
 {% extends 'project/base.html' %}
 
-{% block title %}Category Detail{% endblock %}
+{% block title %}{{ category.name }} - Recipes{% endblock %}
 
 {% block content %}
-<h2>{{ category.name }}</h2>
-<p>Recipes in this category:</p>
-<ul>
-    {% for recipe in category.recipes.all %}
-        <li>
-            <a href="{% url 'recipe_detail' recipe.pk %}">{{ recipe.title }}</a>
-        </li>
-    {% endfor %}
-</ul>
+<div class="category-card">
+    <h2 class="category-title">{{ category.name }}</h2>
+    <p class="category-description">Discover recipes in the "{{ category.name }}" category</p>
+
+    {% if category.recipes.all %}
+    <div class="recipe-grid">
+        {% for recipe in category.recipes.all %}
+        <div class="recipe-card">
+            <h3>{{ recipe.title }}</h3>
+            {% if recipe.image %}
+            <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+            {% else %}
+            <div class="recipe-placeholder">No Image</div>
+            {% endif %}
+            <p>{{ recipe.description|truncatewords:10 }}</p>
+            <a href="{% url 'recipe_detail' recipe.pk %}" class="view-recipe-link">View Recipe</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="no-recipes-message">No recipes available in this category yet.</p>
+    {% endif %}
+    <a href="{% url 'category_list' %}" class="back-to-categories-link">Back to Categories</a>
+</div>
 {% endblock %}

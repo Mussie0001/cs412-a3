@@ -3,20 +3,20 @@
 {% block title %}All Recipes{% endblock %}
 
 {% block content %}
-<h1>All Recipes</h1>
-<div class="recipe-list">
-    {% for recipe in recipes %}
-    <div class="recipe-card">
-        <h2>{{ recipe.title }}</h2>
-        <p>{{ recipe.description }}</p>
-        {% if recipe.image %}
-        <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" style="max-width: 200px;">
-        {% else %}
-        <p>No image available</p>
-        {% endif %}
-        <p>Meal Type: {{ recipe.meal_type }}</p>
-        <a href="{% url 'recipe_detail' recipe.id %}">View Recipe</a>
+<div class="recipes-container">
+    <h1>All Recipes</h1>
+    <div class="recipe-grid">
+        {% for recipe in recipes %}
+        <div class="recipe-card">
+            <h2>{{ recipe.title }}</h2>
+            {% if recipe.image %}
+            <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+            {% endif %}
+            <p><strong>Meal Type:</strong> {{ recipe.meal_type }}</p>
+            <p><strong>Description:</strong> {{ recipe.description|truncatewords:20 }}</p>
+            <a class="view-recipe-link" href="{% url 'recipe_detail' recipe.id %}">View Recipe</a>
+        </div>
+        {% endfor %}
     </div>
-    {% endfor %}
 </div>
 {% endblock %}

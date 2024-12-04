@@ -1,27 +1,37 @@
 {% extends "project/base.html" %}
 
+{% block title %}{{ recipe.title }}{% endblock %}
+
 {% block content %}
-<h1>{{ recipe.title }}</h1>
-<div class="recipe-detail">
-    {% if recipe.image %}
-    <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" style="max-width: 400px; max-height: 400px;">
-    {% endif %}
-    <p><strong>Description:</strong> {{ recipe.description }}</p>
-    <p><strong>Preparation Time:</strong> {{ recipe.preparation_time }} minutes</p>
-    <p><strong>Ingredients:</strong></p>
-    <ul>
-        {% for ri in recipe.recipe_ingredients.all %}
-        <li>{{ ri.quantity }} of {{ ri.ingredient.name }}</li>
-        {% endfor %}
-    </ul>
-    <p><strong>Instructions:</strong></p>
-    <p>{{ recipe.instructions }}</p>
-    <p><strong>Meal Type:</strong> {{ recipe.meal_type }}</p>
-    <p><strong>Categories:</strong>
-        {% for category in recipe.categories.all %}
-        {{ category.name }}{% if not forloop.last %}, {% endif %}
-        {% endfor %}
-    </p>
+<div class="recipe-detail-card">
+    <h1 class="recipe-title">{{ recipe.title }}</h1>
+    <div class="recipe-content">
+        {% if recipe.image %}
+        <div class="recipe-image">
+            <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}" style="width: 150px; height: 150px;">
+        </div>
+        {% endif %}
+        <div class="recipe-info">
+            <p><strong>Description:</strong> {{ recipe.description }}</p>
+            <p><strong>Preparation Time:</strong> {{ recipe.preparation_time }} minutes</p>
+            <p><strong>Meal Type:</strong> {{ recipe.meal_type }}</p>
+            <p><strong>Categories:</strong> 
+                {% for category in recipe.categories.all %}
+                {{ category.name }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </p>
+        </div>
+    </div>
+    <div class="recipe-instructions">
+        <h3>Ingredients</h3>
+        <ul>
+            {% for ri in recipe.recipe_ingredients.all %}
+            <li>{{ ri.quantity }} of {{ ri.ingredient.name }}</li>
+            {% endfor %}
+        </ul>
+        <h3>Instructions</h3>
+        <p>{{ recipe.instructions }}</p>
+    </div>
+    <a href="{% url 'recipe_list' %}" class="back-link">Back to Recipes</a>
 </div>
-<a href="{% url 'recipe_list' %}">Back to Recipes</a>
 {% endblock %}

@@ -3,12 +3,21 @@
 {% block title %}My Profile{% endblock %}
 
 {% block content %}
-<h2>{{ profile.first_name }} {{ profile.last_name }}</h2>
-{% if profile.profile_picture_url %}
-<img src="{{ profile.profile_picture_url }}" alt="Profile Picture" style="max-width:200px;">
-{% else %}
-<p>No profile picture available.</p>
-{% endif %}
-<p><strong>Bio:</strong> {{ profile.bio }}</p>
-<a href="{% url 'recipe_list' %}">View Recipes</a>
+<div class="profile-card">
+    <div class="profile-header">
+        {% if profile.profile_picture_url %}
+        <img src="{{ profile.profile_picture_url }}" alt="Profile Picture">
+        {% else %}
+        <div class="profile-placeholder">
+            <span>No Image</span>
+        </div>
+        {% endif %}
+        <h2>{{ profile.first_name }} {{ profile.last_name }}</h2>
+    </div>
+    <div class="profile-content">
+        <p><strong><u>Bio</u></strong></p>
+        <p>{{ profile.bio }}</p>
+        <a href="{% url 'mealplan_list' %}" class="button">View Meal Plans</a>
+    </div>
+</div>
 {% endblock %}

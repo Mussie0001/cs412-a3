@@ -1,14 +1,19 @@
 {% extends 'project/base.html' %}
-
 {% block title %}Categories{% endblock %}
-
 {% block content %}
-<h2>Categories</h2>
-<ul>
-    {% for category in categories %}
-        <li>
-            <a href="{% url 'category_detail' category.pk %}">{{ category.name }}</a>
-        </li>
-    {% endfor %}
-</ul>
+<div class="categories-container">
+    <h2 class="categories-title">Categories</h2>
+    {% if categories %}
+    <div class="category-grid">
+        {% for category in categories %}
+        <div class="category-card">
+            <h3>{{ category.name }}</h3>
+            <a href="{% url 'category_detail' category.pk %}" class="view-category-link">View Recipes</a>
+        </div>
+        {% endfor %}
+    </div>
+    {% else %}
+    <p class="no-categories-message">No categories available at the moment.</p>
+    {% endif %}
+</div>
 {% endblock %}

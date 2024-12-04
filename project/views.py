@@ -15,6 +15,7 @@ class HomePageView(TemplateView):
     Redirects authenticated users to the recipes list.
     """
     template_name = "project/home.html"
+    extra_context = {'hide_navbar': True}
 
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
@@ -34,11 +35,14 @@ class RecipeDetailView(DetailView):
     context_object_name = 'recipe'
 
 
-class MealPlanListView(ListView):
+
+class MealPlanListView(LoginRequiredMixin, ListView):
     model = MealPlan
     template_name = 'project/mealplans.html'
     context_object_name = 'meal_plans'
 
+    def get_queryset(self):
+        return MealPlan.objects.filter(user=self.request.user).select_related('recipe').order_by('-date')
 
 class CategoryListView(ListView):
     model = Category
