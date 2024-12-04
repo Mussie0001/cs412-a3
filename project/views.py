@@ -8,6 +8,7 @@ from .models import Profile, Recipe, Category, Comment, Favorite
 from .forms import ProfileForm, CommentForm, RecipeForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 from django.http import JsonResponse
+from django.db.models import Q
 
 
 
@@ -29,6 +30,33 @@ class RecipeListView(ListView):
     model = Recipe
     template_name = 'project/recipe_list.html'
     context_object_name = 'recipes'
+
+    def get_queryset(self):
+        queryset = super().get_queryset()
+        search_query = self.request.GET.get('q', '')
+        meal_type = self.request.GET.get('meal_type', '')
+        max_preparation_time = self.request.GET.get('max_time', '')
+
+        if search_query:
+            queryset = queryset.filter(
+                Q(title__icontains=search_query) | Q(description__icontains=search_query)
+            )
+
+        if meal_type:
+            queryset = queryset.filter(meal_type=meal_type)
+
+        if max_preparation_time:
+            try:
+                queryset = queryset.filter(preparation_time__lte=int(max_preparation_time))
+            except ValueError:
+                pass  
+        return queryset
+    
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Pass the meal type choices to the template
+        context['meal_type_choices'] = Recipe.MEAL_TYPE_CHOICES
+        return context
 
 
 class RecipeDetailView(DetailView):

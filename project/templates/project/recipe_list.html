@@ -4,10 +4,22 @@
 <div class="recipes-container">
     <div class="header-section">
         <h1>All Recipes</h1>
-        {% if user.is_authenticated %}
-        <a href="{% url 'recipe_create' %}" class="btn create-recipe-btn">Add Recipe</a>
-        {% endif %}
     </div>
+    <form method="get" class="search-form">
+        <input type="text" name="q" placeholder="Search recipes..." value="{{ request.GET.q }}">
+        <select name="meal_type">
+            <option value="">All Meal Types</option>
+            {% for choice, label in meal_type_choices %}
+            <option value="{{ choice }}" {% if request.GET.meal_type == choice %}selected{% endif %}>
+                {{ label }}
+            </option>
+            {% endfor %}
+        </select>
+        <input type="number" name="max_time" placeholder="Max Time (mins)" value="{{ request.GET.max_time }}">
+        <button type="submit" class="btn">Search</button>
+        <!-- Add Clear Search Button -->
+        <a href="{% url 'recipe_list' %}" class="btn clear-btn">Clear Search</a>
+    </form>
     <div class="recipe-grid">
         {% for recipe in recipes %}
         <div class="recipe-card">
@@ -17,6 +29,7 @@
             {% endif %}
             <p><strong>Meal Type:</strong> {{ recipe.meal_type }}</p>
             <p><strong>Description:</strong> {{ recipe.description|truncatewords:20 }}</p>
+            <p><strong>Prep Time:</strong> {{ recipe.preparation_time }} mins</p>
             <a class="view-recipe-link" href="{% url 'recipe_detail' recipe.id %}">View Recipe</a>
         </div>
         {% endfor %}
