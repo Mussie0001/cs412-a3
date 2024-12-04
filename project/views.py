@@ -4,9 +4,11 @@ from django.contrib.auth.views import LoginView, LogoutView
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
-from .models import Profile, Recipe, MealPlan, Category, Comment
-from .forms import ProfileForm, CommentForm
+from .models import Profile, Recipe, Category, Comment, Favorite
+from .forms import ProfileForm, CommentForm, RecipeForm
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.http import JsonResponse
+
 
 
 class HomePageView(TemplateView):
@@ -39,6 +41,9 @@ class RecipeDetailView(DetailView):
         context['comments'] = self.object.comments.all().order_by('-timestamp')
         if self.request.user.is_authenticated:
             context['comment_form'] = CommentForm()
+            context['is_favorited'] = Favorite.objects.filter(user=self.request.user, recipe=self.object).exists()
+        else:
+            context['is_favorited'] = False
         return context
 
     def post(self, request, *args, **kwargs):
@@ -58,15 +63,70 @@ class RecipeDetailView(DetailView):
         context['comment_form'] = form
         return self.render_to_response(context)
 
+class MyRecipesView(LoginRequiredMixin, TemplateView):
+    template_name = 'project/my_recipes.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        # Get recipes created by the user
+        context['created_recipes'] = Recipe.objects.filter(creator=self.request.user)
+        # Get recipes favorited by the user (excluding their own created recipes)
+        context['favorited_recipes'] = Recipe.objects.filter(
+            favorited_by__user=self.request.user
+        ).exclude(creator=self.request.user)
+        return context
+ 
+class RecipeCreateView(LoginRequiredMixin, CreateView):
+    model = Recipe
+    form_class = RecipeForm
+    template_name = 'project/recipe_create.html'
+
+    def form_valid(self, form):
+        form.instance.creator = self.request.user
+        return super().form_valid(form)
+
+    def get_success_url(self):
+        return reverse_lazy('my_recipes')
 
 
-class MealPlanListView(LoginRequiredMixin, ListView):
-    model = MealPlan
-    template_name = 'project/mealplans.html'
-    context_object_name = 'meal_plans'
+class RecipeUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
+    model = Recipe
+    form_class = RecipeForm
+    template_name = 'project/recipe_update.html'
 
-    def get_queryset(self):
-        return MealPlan.objects.filter(user=self.request.user).select_related('recipe').order_by('-date')
+    def test_func(self):
+        """Ensure the user is the creator of the recipe."""
+        recipe = self.get_object()
+        return self.request.user == recipe.creator
+
+    def get_success_url(self):
+        return reverse_lazy('recipe_detail', kwargs={'pk': self.object.pk})
+
+
+
+class RecipeDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
+    model = Recipe
+    template_name = 'project/recipe_delete.html'
+
+    def test_func(self):
+        return self.get_object().creator == self.request.user
+
+    def get_success_url(self):
+        return reverse_lazy('my_recipes')
+
+class ToggleFavoriteView(LoginRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        recipe = get_object_or_404(Recipe, pk=pk)
+        favorite, created = Favorite.objects.get_or_create(user=request.user, recipe=recipe)
+
+        if not created:
+            favorite.delete()
+            is_favorited = False
+        else:
+            is_favorited = True
+
+        return JsonResponse({"success": True, "is_favorited": is_favorited})
+
 
 class CategoryListView(ListView):
     model = Category

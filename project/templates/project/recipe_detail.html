@@ -30,29 +30,45 @@
         <h3>Instructions</h3>
         <p>{{ recipe.instructions }}</p>
     </div>
+
+    <!-- Favorite/Unfavorite Button -->
+    {% if user.is_authenticated and recipe.creator != user %}
+    <div class="favorite-section">
+        <button id="favorite-button" 
+                data-recipe-id="{{ recipe.id }}" 
+                class="btn {% if is_favorited %}danger{% else %}primary{% endif %}">
+            {% if is_favorited %}
+            Unfavorite
+            {% else %}
+            Favorite
+            {% endif %}
+        </button>
+    </div>
+    {% endif %}
+
     <a href="{% url 'recipe_list' %}" class="back-link">Back to Recipes</a>
+    {% if user.is_authenticated and recipe.creator == user %}
+    <a href="{% url 'recipe_update' recipe.id %}" class="btn">Edit Recipe</a>
+    <a href="{% url 'recipe_delete' recipe.id %}" class="btn danger">Delete Recipe</a>
+    {% endif %}
 </div>
 
 {% if user.is_authenticated %}
 <div class="comments-section">
     <h2>Comments</h2>
-
-    <!-- Comment form -->
     <form method="post" class="comment-form">
         {% csrf_token %}
         {{ comment_form.as_p }}
         <button type="submit" class="btn">Post Comment</button>
     </form>
-
-    <!-- Display existing comments -->
     <div class="comments-list">
         {% for comment in comments %}
         <div class="comment-card">
-            <p><strong>{{ comment.user.username }}</strong> - {{ comment.timestamp|date:"M d, Y H:i" }}</p>
+            <p><strong>{{ comment.user.user_profile.first_name }} {{ comment.user.user_profile.last_name }}</strong> - {{ comment.timestamp|date:"M d, Y H:i" }}</p>
             <p>{{ comment.content }}</p>
             {% if comment.user == user %}
-                <a href="{% url 'comment_edit' comment.pk %}" class="btn small">Edit</a>
-                <a href="{% url 'comment_delete' comment.pk %}" class="btn small danger">Delete</a>
+            <a href="{% url 'comment_edit' comment.pk %}" class="btn small">Edit</a>
+            <a href="{% url 'comment_delete' comment.pk %}" class="btn small danger">Delete</a>
             {% endif %}
         </div>
         {% empty %}
@@ -63,4 +79,43 @@
 {% else %}
 <p class="login-prompt">Please <a href="{% url 'project_login' %}">log in</a> to view and post comments.</p>
 {% endif %}
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const favoriteButton = document.getElementById("favorite-button");
+        if (favoriteButton) {
+            favoriteButton.addEventListener("click", function (e) {
+                e.preventDefault(); // Prevent default form submission
+                const recipeId = favoriteButton.getAttribute("data-recipe-id");
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                fetch(`/project/recipe/${recipeId}/favorite/`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": csrfToken,
+                    },
+                })
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error("Network response was not ok");
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data.success) {
+                        favoriteButton.innerText = data.is_favorited ? "Unfavorite" : "Favorite";
+                        favoriteButton.classList.toggle("danger", data.is_favorited);
+                        favoriteButton.classList.toggle("primary", !data.is_favorited);
+                    } else {
+                        alert(data.message || "An error occurred.");
+                    }
+                })
+                .catch(error => {
+                    console.error("Error:", error);
+                    alert("An error occurred while processing your request.");
+                });
+            });
+        }
+    });
+</script>
 {% endblock %}

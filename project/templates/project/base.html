@@ -5,16 +5,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="{% static 'project/styles.css' %}">
-    <title>{% block title %}Plantry{% endblock %}</title>
+    <title>{% block title %}DishConnect{% endblock %}</title>
 </head>
 <body class="background">
     <header class="header">
-        <h1 class="header-title">Plantry</h1>
+        <h1 class="header-title">DishConnect</h1>
     </header>
     <nav class="nav" {% if hide_navbar %}style="display: none;"{% endif %}>
         {% if user.is_authenticated %}
         <a href="{% url 'recipe_list' %}">Recipes</a>
-        <a href="{% url 'mealplan_list' %}">Meal Plans</a>
+        <!-- <a href="{% url 'my_recipes' %}">View My Recipes</a> -->
         <a href="{% url 'category_list' %}">Categories</a>
         {% if user.user_profile %}
             <a href="{% url 'profile_detail' user.user_profile.pk %}">My Profile</a>
@@ -32,7 +32,7 @@
         {% endblock %}
     </main>
     <footer class="footer">
-        <p>&copy; 2024 Plantry</p>
+        <p>&copy; 2024 DishConnect</p>
     </footer>
 </body>
 </html>

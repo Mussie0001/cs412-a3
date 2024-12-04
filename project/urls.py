@@ -1,10 +1,8 @@
 from django.urls import path
-from django.contrib.auth import views as auth_views
 from .views import (
     HomePageView,
     RecipeListView,
     RecipeDetailView,
-    MealPlanListView,
     CategoryListView,
     CategoryDetailView,
     CustomLoginView,
@@ -14,13 +12,18 @@ from .views import (
     CustomLogoutView,
     CommentUpdateView,
     CommentDeleteView,
+    RecipeCreateView,
+    MyRecipesView,
+    ToggleFavoriteView,
+    RecipeCreateView,
+    RecipeUpdateView,
+    RecipeDeleteView,
 )
 
 urlpatterns = [
     path('', HomePageView.as_view(), name='home'),
     path('recipes/', RecipeListView.as_view(), name='recipe_list'),
     path('recipe/<int:pk>/', RecipeDetailView.as_view(), name='recipe_detail'),
-    path('mealplans/', MealPlanListView.as_view(), name='mealplan_list'),
     path('categories/', CategoryListView.as_view(), name='category_list'),
     path('category/<int:pk>/', CategoryDetailView.as_view(), name='category_detail'),
     path('profile/create/', ProfileCreateView.as_view(), name='profile_create'),
@@ -30,7 +33,9 @@ urlpatterns = [
     path('profile/create-only/', ProfileOnlyCreateView.as_view(), name='profile_create_only'),
     path('comment/<int:pk>/edit/', CommentUpdateView.as_view(), name='comment_edit'),
     path('comment/<int:pk>/delete/', CommentDeleteView.as_view(), name='comment_delete'),
+    path('my-recipes/', MyRecipesView.as_view(), name='my_recipes'),
+    path('recipe/<int:pk>/favorite/', ToggleFavoriteView.as_view(), name='toggle_favorite'),
+    path('recipe/create/', RecipeCreateView.as_view(), name='recipe_create'),
+    path('recipe/<int:pk>/edit/', RecipeUpdateView.as_view(), name='recipe_update'),
+    path('recipe/<int:pk>/delete/', RecipeDeleteView.as_view(), name='recipe_delete'),
 ]
-
-
-

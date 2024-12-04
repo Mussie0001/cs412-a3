@@ -1,0 +1,85 @@
+{% extends "project/base.html" %}
+{% block title %}My Recipes{% endblock %}
+{% block content %}
+<div class="my-recipes-container">
+    <h1>My Recipes</h1>
+    <!-- Created Recipes Section -->
+    <div class="created-recipes-section">
+        <h2>Created Recipes</h2>
+        {% if created_recipes %}
+        <div class="recipe-grid">
+            {% for recipe in created_recipes %}
+            <div class="recipe-card">
+                <h2>{{ recipe.title }}</h2>
+                {% if recipe.image %}
+                <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+                {% endif %}
+                <p><strong>Meal Type:</strong> {{ recipe.meal_type }}</p>
+                <p><strong>Description:</strong> {{ recipe.description|truncatewords:20 }}</p>
+                <a class="view-recipe-link btn" href="{% url 'recipe_detail' recipe.id %}">View Recipe</a>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>You haven't created any recipes yet.</p>
+        {% endif %}
+    </div>
+
+    <!-- Favorited Recipes Section -->
+    <div class="favorited-recipes-section">
+        <h2>Favorited Recipes</h2>
+        {% if favorited_recipes %}
+        <div class="recipe-grid">
+            {% for recipe in favorited_recipes %}
+            <div class="recipe-card">
+                <h2>{{ recipe.title }}</h2>
+                {% if recipe.image %}
+                <img src="{{ recipe.image.url }}" alt="{{ recipe.title }}">
+                {% endif %}
+                <p><strong>Meal Type:</strong> {{ recipe.meal_type }}</p>
+                <p><strong>Description:</strong> {{ recipe.description|truncatewords:20 }}</p>
+                <a class="btn view-recipe-link" href="{% url 'recipe_detail' recipe.id %}">View Recipe</a>
+                <button id="favorite-button-{{ recipe.id }}" 
+                        data-recipe-id="{{ recipe.id }}" 
+                        class="btn danger favorite-button">
+                    Unfavorite
+                </button>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p>You haven't favorited any recipes yet.</p>
+        {% endif %}
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const favoriteButtons = document.querySelectorAll(".favorite-button");
+        favoriteButtons.forEach(button => {
+            button.addEventListener("click", function () {
+                const recipeId = this.getAttribute("data-recipe-id");
+                const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]').value;
+
+                fetch(`/project/recipe/${recipeId}/favorite/`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        "X-CSRFToken": csrfToken,
+                    },
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        // Remove the card if unfavorited
+                        this.parentElement.remove();
+                    } else {
+                        alert(data.message || "An error occurred.");
+                    }
+                })
+                .catch(error => console.error("Error:", error));
+            });
+        });
+    });
+</script>
+{% endblock %}

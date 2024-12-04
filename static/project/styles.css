@@ -133,40 +133,6 @@ body {
 }
 
 
-.meal-plan-card {
-    background-color: #FFF;
-    border: 1px solid #88B04B;
-    border-radius: 8px;
-    padding: 15px;
-    margin-bottom: 15px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    display: flex;
-    flex-direction: column;
-    align-items: center; 
-    text-align: center;
-    max-width: 300px; 
-    margin: 15px auto;
-}
-
-.meal-plan-card img {
-    max-width: 150px;
-    max-height: 150px;
-    border-radius: 8px;
-    object-fit: cover; 
-    margin-bottom: 10px;
-}
-
-.meal-plan-card h3, .meal-plan-card h4 {
-    margin: 5px 0;
-    color: #88B04B;
-}
-
-.meal-plan-card p {
-    color: #333333;
-    font-size: 14px;
-    margin: 5px 0;
-}
-
 
 
 /* Recipes container */
@@ -186,8 +152,8 @@ body {
 .recipe-grid {
     display: flex;
     flex-wrap: wrap; 
-    justify-content: space-between; 
-    gap: 30px 15px; 
+    gap: 20px; /* Adjusted spacing */
+    justify-content: flex-start; /* Align items to the left */
     padding: 10px; 
 }
 
@@ -198,7 +164,7 @@ body {
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); 
     padding: 15px;
-    flex: 1 1 calc(33.333% - 20px); 
+    flex: 1 1 calc(33.333% - 20px); /* 3 cards per row with spacing */
     max-width: 300px; 
     display: flex;
     flex-direction: column; 
@@ -230,7 +196,6 @@ body {
     border-radius: 5px;
     text-decoration: none;
     margin-top: 10px;
-    font-size: 14px;
     transition: background-color 0.3s ease;
 }
 
@@ -308,7 +273,7 @@ body {
 }
 
 .back-link:hover {
-    background-color: #6c8a3b; /* Darker green */
+    background-color: #6c8a3b;
 }
 
 
@@ -565,3 +530,45 @@ body {
     background-color: #FF4C4C; 
 }
 
+.favorite-section .btn.unfavorite {
+    background-color: #FF6347; 
+    color: white;
+    border: none;
+    transition: background-color 0.3s;
+}
+
+.favorite-section .btn.unfavorite:hover {
+    background-color: #FF4500;
+}
+
+.header-section {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.my-recipes-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.my-recipes-container h1 {
+    text-align: center;
+    color: var(--primary-color);
+    margin-bottom: 20px;
+}
+
+.created-recipes-section, .favorited-recipes-section {
+    margin-top: 30px;
+}
+
+.created-recipes-section h2, .favorited-recipes-section h2 {
+    color: var(--primary-color);
+    margin-bottom: 15px;
+    text-align: center;
+}
