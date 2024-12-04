@@ -31,6 +31,11 @@ class RecipeListView(ListView):
     template_name = 'project/recipe_list.html'
     context_object_name = 'recipes'
 
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('home')
+        return super().dispatch(request, *args, **kwargs)
+
     def get_queryset(self):
         queryset = super().get_queryset()
         search_query = self.request.GET.get('q', '')
@@ -63,6 +68,11 @@ class RecipeDetailView(DetailView):
     model = Recipe
     template_name = 'project/recipe_detail.html'
     context_object_name = 'recipe'
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('home')
+        return super().dispatch(request, *args, **kwargs)
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -239,6 +249,11 @@ class ProfileDetailView(DetailView):
     model = Profile
     template_name = "project/profile_detail.html"
     context_object_name = "profile"
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            return redirect('home')
+        return super().dispatch(request, *args, **kwargs)
 
 class CommentUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Comment
