@@ -52,7 +52,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 70vh;
+    min-height: 100vh;
     padding: 20px;
 }
 
@@ -115,8 +115,8 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    text-align: left;
-    width: 100%;
+    text-align: center;
+    width: 50%;
 }
 
 .form-container h2 {
@@ -617,4 +617,59 @@ body {
 .clear-btn:hover {
     background-color: #FF4C4C; /* Darker Red */
     color: #FFF;
+}
+
+.create-container {
+    max-width: 700px;
+    margin: 40px auto;
+    padding: 30px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    text-align: left;
+    font-family: Arial, sans-serif;
+}
+
+.create-container h1 {
+    color: var(--primary-color);
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.create-container form {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+
+.form-section h2 {
+    margin-bottom: 15px;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 5px;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+    display: block;
+    color: #333;
+}
+
+
+.create-container form .btn {
+    align-self: center;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 25px;
+    border-radius: 5px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.create-container form .btn:hover {
+    background-color: var(--accent-color);
 }
