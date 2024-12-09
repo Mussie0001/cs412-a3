@@ -244,6 +244,19 @@ class ProfileOnlyCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self):
         return reverse_lazy('profile_detail', kwargs={'pk': self.request.user.user_profile.pk})
+    
+class ProfileUpdateView(LoginRequiredMixin, UpdateView):
+    model = Profile
+    form_class = ProfileForm
+    template_name = "project/profile_edit.html"
+
+    def get_object(self):
+        """Ensure only the logged-in user's profile is editable."""
+        return self.request.user.user_profile
+
+    def get_success_url(self):
+        """Redirect to the profile detail page after editing."""
+        return self.request.user.user_profile.get_absolute_url()
 
 class ProfileDetailView(DetailView):
     model = Profile

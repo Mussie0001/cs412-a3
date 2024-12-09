@@ -1,0 +1,32 @@
+{% extends "project/base.html" %}
+{% block title %}Edit Profile{% endblock %}
+{% block content %}
+<div class="create-container">
+    <h1>Edit Profile</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        <!-- Basic Details Section -->
+         <div class="form-section">
+            <h2>Basic Details</h2>
+            <label for="id_first_name">First Name:</label>
+            {{ form.first_name }}
+            <br/><br/><br/>
+            <label for="id_last_name">Last Name:</label>
+            {{ form.last_name }}
+            <br/><br/><br/>
+            <label for="id_bio">Bio:</label>
+            {{ form.bio }}
+            <br/><br/><br/>
+            <label for="id_profile_picture">Profile Picture:</label>
+            {{ form.profile_picture_url }}
+            <br/>
+        </div>
+        <!-- Submit and Cancel Buttons -->
+        <div class="form-section">
+            <a href="{% url 'profile_detail' user.user_profile.pk %}" style="background-color: #FF6B6B; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px; display: inline-block;">Back to Profile</a>
+            <button type="submit" class="btn">Save Changes</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

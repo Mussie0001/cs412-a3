@@ -15,7 +15,8 @@
     <div class="profile-content">
         <p><strong><u>Bio</u></strong></p>
         <p>{{ profile.bio }}</p>
-        <a href="{% url 'my_recipes' %}" class="button">View My Recipes</a>
+        <a href="{% url 'profile_edit' %}" class="btn">Edit Profile</a>
+        <a href="{% url 'my_recipes' %}" class="btn">View My Recipes</a>
     </div>
 </div>
 {% endblock %}
