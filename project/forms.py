@@ -19,6 +19,31 @@ class CommentForm(forms.ModelForm):
         }
 
 class RecipeForm(forms.ModelForm):
+    """
+    A form for creating and updating Recipe instances.
+
+    Fields:
+        title (CharField): The title of the recipe.
+        description (CharField): A brief description of the recipe.
+        preparation_time (IntegerField): The time required to prepare the recipe.
+        instructions (TextField): Step-by-step instructions for preparing the recipe.
+        image (ImageField): An image of the prepared recipe.
+        meal_type (ChoiceField): The type of meal (e.g., breakfast, lunch, dinner).
+        ingredients (CharField): A comma-separated list of ingredients.
+        quantities (CharField): A comma-separated list of quantities corresponding to the ingredients.
+        categories (ModelMultipleChoiceField): Categories to which the recipe belongs.
+
+    Methods:
+        __init__(self, *args, **kwargs):
+            Initializes the form. If an instance is provided, pre-populates the ingredients, quantities, and categories fields.
+
+        save(self, commit=True):
+            Saves the form data to create or update a Recipe instance. Handles the creation and association of RecipeIngredient instances and sets the categories for the recipe.
+
+    Meta:
+        model (Recipe): The model associated with this form.
+        fields (list): The fields to include in the form.
+    """
     ingredients = forms.CharField(
         widget=forms.Textarea(attrs={'rows': 3}),
         required=False,
